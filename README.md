@@ -1,0 +1,1 @@
+Differentiator on minimum settings
