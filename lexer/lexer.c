@@ -1,12 +1,15 @@
 #include "lexer.h"
+#include "../includes/lexinit.h"
+#include "../service/service.h"
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
+                    //  REALIZATION OF LEXER FUNCTION   //
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 lexem_array_t *LexsInit (unsigned capacity)
 {
     lexem_array_t *lexus = (lexem_array_t *) calloc (1, sizeof (lexem_array_t));
     lexus->lexems        = (lexem_t *) calloc (capacity, sizeof (lexem_t));
     lexus->capacity = capacity;
-    lexus->size     = 0;
+    lexus->current     = 0;
     return lexus;
 }
 
@@ -24,7 +27,7 @@ int LexsDelete (lexem_array_t *lexus)
     assert (lexus);
     assert (lexus->lexems);
 
-    for (int i = 0; i < lexus->size; i++)
+    for (int i = 0; i < lexus->current; i++)
     {
         if (lexus->lexems[i].kind == VARIABLE)
             free (lexus->lexems[i].lexm.var);
@@ -53,33 +56,33 @@ int LexsInsert (lexem_array_t *lexus, kind_t kind, ...)
         token = va_arg (args, int);
 
     assert (lexus);
-    if (lexus->size > KRIT_KF * lexus->capacity)
+    if (lexus->current > KRIT_KF * lexus->capacity)
         LexsResz (lexus);
     assert (lexus->lexems);
 
-    lexus->lexems[lexus->size].kind = kind;
+    lexus->lexems[lexus->current].kind = kind;
     switch (kind)
     {
         case VARIABLE:
-            lexus->lexems[lexus->size].lexm.var = (char *) calloc (strlen(var), sizeof (char));
-            lexus->lexems[lexus->size].lexm.var = memmove (lexus->lexems[lexus->size].lexm.var, var, strlen(var));
+            lexus->lexems[lexus->current].lexm.var = (char *) calloc (strlen(var), sizeof (char));
+            lexus->lexems[lexus->current].lexm.var = memmove (lexus->lexems[lexus->current].lexm.var, var, strlen(var));
             break;
         case NUMBER:
-            lexus->lexems[lexus->size].lexm.data = data;
+            lexus->lexems[lexus->current].lexm.data = data;
             break;
         case BRACKET:
-            lexus->lexems[lexus->size].lexm.brac = token;
+            lexus->lexems[lexus->current].lexm.brac = token;
             break;
         case OPERATOR:
-            lexus->lexems[lexus->size].lexm.oper = token;
+            lexus->lexems[lexus->current].lexm.oper = token;
             break;
         case FUNCTION:
-            lexus->lexems[lexus->size].lexm.func = token;
+            lexus->lexems[lexus->current].lexm.func = token;
             break;
         default:
             return ERROR;
     }
-    lexus->size++;
+    lexus->current++;
 
     va_end (args);
 
@@ -95,7 +98,7 @@ int LexsPrint (lexem_array_t *lexus, const char * output_name)
     FILE * file = FileOpen (output_name, "w");
 
 
-    for (unsigned pos = 0; pos < lexus->size - 1; pos++)
+    for (unsigned pos = 0; pos < lexus->current - 1; pos++)
     {
         kind = lexus->lexems[pos].kind;
         switch (kind)
@@ -120,6 +123,7 @@ int LexsPrint (lexem_array_t *lexus, const char * output_name)
             case FUNCTION:
                 token = lexus->lexems[pos].lexm.func;
                 fprintf (file, "FUNCTION: %s\n", function_names[token]);
+                break;
             default:
                 return ERROR;
         }
@@ -133,21 +137,6 @@ int LexsPrint (lexem_array_t *lexus, const char * output_name)
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 
-FILE * FileOpen (const char *file_name, const char *mode)
-{
-    assert (file_name && mode);
-    FILE *file = fopen (file_name, mode);
-    assert (file);
-    return file;
-}
-
-int FileClose (FILE *file)
-{
-    assert (file);
-    fclose (file);
-    return NO_ERROR;
-}
-
 char * StrCtor (char first, FILE *file)
 {
     assert (file);
@@ -155,7 +144,7 @@ char * StrCtor (char first, FILE *file)
     char *str = (char *) calloc (STR_INIT, sizeof (char));
     ungetc (first, file);
 
-    while (first != EOF && first != '\n')
+    while (first != EOF && first != '\n' && first != ' ')
     {
         first = getc (file);
         if (first == LRBRACE || first == RRBRACE || first == LSBRACE || first == RSBRACE
@@ -194,7 +183,7 @@ int IstrCmp (char *str1, const char *str2)
             return toupper (str1[pos]) - str2[pos];
     }
 
-    return (toupper(str1[pos] < str2[pos])) ? -1 : 1;
+    return toupper (str1[pos]) - str2[pos];
 }
 
 int IsFunc (char *str)
@@ -236,23 +225,17 @@ int LexsFill (lexem_array_t *lexus, const char *file_name)
             LexsInsert (lexus, NUMBER, data);
         }
         else if (symb == LRBRACE || symb == RRBRACE || symb == LSBRACE || symb == RSBRACE)
-        {
             LexsInsert (lexus, BRACKET, symb);
-        }
         else if (symb == ADD || symb == SUB || symb == MUL || symb == DIV || symb == DEG)
-        {
             LexsInsert (lexus, OPERATOR, symb);
-        }
         else
         {
             str = StrCtor (symb, file);
-            if (IsFunc (str) != -1)
-            {
-                token = IsFunc (str);
-                LexsInsert (lexus, FUNCTION, token);
-            }
-            else
+            token = IsFunc (str);
+            if (token == -1)
                 LexsInsert (lexus, VARIABLE, str);
+            else
+                LexsInsert (lexus, FUNCTION, token);
             StrDelete (str);
         }
     }

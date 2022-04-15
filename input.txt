@@ -1,1 +1,0 @@
-(123*sin(x)+x^y)/(x^y+arctan(cos(x)))
