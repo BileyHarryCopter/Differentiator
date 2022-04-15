@@ -1,0 +1,1 @@
+SIN(ARCTAN(x ^ 575 / 45) * SINH (y / 4)) - 2
