@@ -2,6 +2,7 @@
 #include "includes/constant.h"
 #include "lexer/lexer.h"
 #include "parcer/parcer.h"
+#include "dump/dump.h"
 
 int main (void)
 {
@@ -12,6 +13,7 @@ int main (void)
     {
         LexsPrint (lexus, "logs/output.txt");
         tree = Build_Syntax_Tree (lexus);
+        GraphDump (tree);
         TreePrint (tree, "logs/outtree.txt");
     }
 
