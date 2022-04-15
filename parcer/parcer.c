@@ -1,5 +1,6 @@
 #include "parcer.h"
 #include "../includes/lexinit.h"
+#include "../includes/parcinit.h"
 #include "../service/service.h"
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
                     //  REALIZATION OF TREE SERVICES    //
