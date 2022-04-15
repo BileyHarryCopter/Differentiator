@@ -1,0 +1,39 @@
+digraph DIFFTORR
+{
+	graph [dpi = 200, rankdir = "TB"];
+
+	subgraph TREE
+	{
+		node [shape = "oval", style = "filled", fillcolor = "lightgoldenrod1", fontcolor = "black", fontsize = "12"];
+		edge [color = "black"];
+
+		node_0x7fe6b7406060 [label = "-"];
+		node_0x7fe6b74059e0 [label = "SIN", fillcolor = "lightgreen" ];
+		node_0x7fe6b7406020 [label = "*"];
+		node_0x7fe6b7405a00 [label = "ARCTAN", fillcolor = "lightgreen" ];
+		node_0x7fe6b7405f80 [label = "/"];
+		node_0x7fe6b7405f40 [label = "^"];
+		node_0x7fe6b7405a20 [label = "x", fillcolor = "mediumpurple1" ];
+		node_0x7fe6b7405a50 [label = "575.000000", fillcolor = "mediumpurple1" ];
+		node_0x7fe6b7405f60 [label = "45.000000", fillcolor = "mediumpurple1" ];
+		node_0x7fe6b7405fa0 [label = "SINH", fillcolor = "lightgreen" ];
+		node_0x7fe6b7406000 [label = "/"];
+		node_0x7fe6b7405fc0 [label = "y", fillcolor = "mediumpurple1" ];
+		node_0x7fe6b7405fe0 [label = "4.000000", fillcolor = "mediumpurple1" ];
+		node_0x7fe6b7406040 [label = "2.000000", fillcolor = "mediumpurple1" ];
+
+		node_0x7fe6b7406060 -> node_0x7fe6b74059e0;
+		node_0x7fe6b74059e0 -> node_0x7fe6b7406020;
+		node_0x7fe6b7406020 -> node_0x7fe6b7405a00;
+		node_0x7fe6b7405a00 -> node_0x7fe6b7405f80;
+		node_0x7fe6b7405f80 -> node_0x7fe6b7405f40;
+		node_0x7fe6b7405f40 -> node_0x7fe6b7405a20;
+		node_0x7fe6b7405f40 -> node_0x7fe6b7405a50;
+		node_0x7fe6b7405f80 -> node_0x7fe6b7405f60;
+		node_0x7fe6b7406020 -> node_0x7fe6b7405fa0;
+		node_0x7fe6b7405fa0 -> node_0x7fe6b7406000;
+		node_0x7fe6b7406000 -> node_0x7fe6b7405fc0;
+		node_0x7fe6b7406000 -> node_0x7fe6b7405fe0;
+		node_0x7fe6b7406060 -> node_0x7fe6b7406040;
+	}
+}
