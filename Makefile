@@ -4,6 +4,7 @@ LEXERSRC = lexer
 PARCERSRC = parcer
 SERVICESRC = service
 DUMPSRC = dump
+DIFFSRC = difftorr
 
 all: start clean
 
@@ -26,7 +27,7 @@ dump.o:
 	$(CC) $(CFLAGS) $(DUMPSRC)/dump.c
 
 difftorr.o:
-	$(CC) $(CFLAGS) difftorr.c
+	$(CC) $(CFLAGS) $(DIFFSRC)/difftorr.c
 
 clean:
 	rm -rf *.o

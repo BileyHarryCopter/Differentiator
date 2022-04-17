@@ -75,9 +75,9 @@ int GraphDump (node_t *tree, modes mode)
     FILE * file = NULL;
 
     if (mode == DEBUG)
-        file = FileOpen ("dump/dump_debug_tree.dot", "w");
+        file = FileOpen ("logs/dump_debug_tree.dot", "w");
     else
-        file = FileOpen ("dump/dump_tree.dot", "w");
+        file = FileOpen ("logs/dump_tree.dot", "w");
 
     fprintf (file,
             "digraph DIFFTORR\n"
@@ -107,13 +107,13 @@ int GraphDump (node_t *tree, modes mode)
     FileClose (file);
 
     if (mode == DEBUG)
-        system ("dot dump/dump_debug_tree.dot -T png -o dump/dump_debug_tree.png");
+        system ("dot logs/dump_debug_tree.dot -T png -o logs/dump_debug_tree.png");
     else
-        system ("dot dump/dump_tree.dot -T png -o dump/dump_tree.png");
+        system ("dot logs/dump_tree.dot -T png -o logs/dump_tree.png");
 
 
     if (mode == OPEN)
-        system ("open dump/dump_tree.png");
+        system ("open logs/dump_tree.png");
 
     return NO_ERROR;
 }
