@@ -222,7 +222,7 @@ node_t *Parce_Term (lexem_array_t *lexus)
            (lexus->lexems[lexus->current].lexm.brac == LRBRACE || lexus->lexems[lexus->current].lexm.brac == LSBRACE))
         {
             lexus->current++;
-            tbranch->left = ParceBrac (lexus);
+            tbranch->right = ParceBrac (lexus);
             return tbranch;
         }
     }

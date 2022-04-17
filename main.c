@@ -3,7 +3,7 @@
 #include "lexer/lexer.h"
 #include "parcer/parcer.h"
 #include "dump/dump.h"
-#include "difftorr.h"
+#include "difftorr/difftorr.h"
 
 int main (void)
 {
