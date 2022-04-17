@@ -14,7 +14,7 @@ typedef char*  var_t;
 
 typedef double data_t;
 
-typedef enum errors     {NO_ERROR = 0, ERROR} errors;
+typedef enum modes      {NO_ERROR = 0, ERROR, OPEN, JUST, DEBUG} modes;
 
 typedef enum kind_t     {BRACKET = 1, NUMBER, VARIABLE, OPERATOR, FUNCTION} kind_t;
 
@@ -22,7 +22,7 @@ typedef enum bracket_t  {LRBRACE = 40, RRBRACE = 41, LSBRACE = 91, RSBRACE = 93}
 
 typedef enum operator_t {ADD = 43, SUB = 45, MUL = 42, DIV = 47, DEG = 94} operator_t;
 
-typedef enum function_t {SIN = 0, COS, TAN, COT, ARCSIN, ARCCOS, ARCTAN, ARCCOT, SINH, COSH, TANH, COTH, FUNC_NUMB} function_t;
+typedef enum function_t {SIN = 0, COS, TAN, COT, ARCSIN, ARCCOS, ARCTAN, ARCCOT, SINH, COSH, TANH, COTH, LN, FUNC_NUMB} function_t;
 
 static char *function_names[FUNC_NUMB] =
 {
@@ -37,7 +37,8 @@ static char *function_names[FUNC_NUMB] =
     "SINH",
     "COSH",
     "TANH",
-    "COTH"
+    "COTH",
+    "LN"
 };
 
 #endif
