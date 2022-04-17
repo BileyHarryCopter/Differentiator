@@ -7,8 +7,8 @@ DUMPSRC = dump
 
 all: start clean
 
-start: main.o lexer.o parcer.o service.o dump.o
-	$(CC) main.o lexer.o parcer.o service.o dump.o -o start
+start: main.o lexer.o parcer.o service.o dump.o difftorr.o
+	$(CC) main.o lexer.o parcer.o service.o dump.o difftorr.o -o start
 
 main.o:
 	$(CC) $(CFLAGS) main.c
@@ -24,6 +24,9 @@ service.o:
 
 dump.o:
 	$(CC) $(CFLAGS) $(DUMPSRC)/dump.c
+
+difftorr.o:
+	$(CC) $(CFLAGS) difftorr.c
 
 clean:
 	rm -rf *.o

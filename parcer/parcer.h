@@ -21,4 +21,5 @@ node_t *Parce_Expr (lexem_array_t *lexus);
 node_t *Parce_Degr (lexem_array_t *lexus);
 node_t *Parce_Mult (lexem_array_t *lexus);
 node_t *Parce_Term (lexem_array_t *lexus);
+
 #endif

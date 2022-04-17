@@ -3,22 +3,30 @@
 #include "../includes/parcinit.h"
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
 //===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*===*//
-int DryNode (node_t *top, FILE *file)
+int DryNode (node_t *top, FILE *file, modes mode)
 {
-    fprintf (file, "\t\tnode_%p [label = ", top);
+    if (mode == DEBUG)
+    {
+        fprintf (file, "\t\tnode_%p [label = \"top: %p | left: %p | right: %p | ", top, top, top->left, top->right);
+        if (top->ndata.kind == VARIABLE)
+            fprintf (file, "variable: %p | ", top->ndata.content.var);
+    }
+    else
+        fprintf (file, "\t\tnode_%p [label = \"", top);
+
     switch (top->ndata.kind)
     {
         case OPERATOR:
-            fprintf (file, "\"%c\"];\n", top->ndata.content.token);
+            fprintf (file, "%c\"];\n", top->ndata.content.token);
             break;
         case FUNCTION:
-            fprintf (file, "\"%s\", fillcolor = \"lightgreen\" ];\n", function_names[top->ndata.content.token]);
+            fprintf (file, "%s\", fillcolor = \"lightgreen\" ];\n", function_names[top->ndata.content.token]);
             break;
         case NUMBER:
-            fprintf (file, "\"%lf\", fillcolor = \"mediumpurple1\" ];\n", top->ndata.content.data);
+            fprintf (file, "%lf\", fillcolor = \"mediumpurple1\" ];\n", top->ndata.content.data);
             break;
         case VARIABLE:
-            fprintf (file, "\"%s\", fillcolor = \"mediumpurple1\" ];\n", top->ndata.content.var);
+            fprintf (file, "%s\", fillcolor = \"mediumpurple1\" ];\n", top->ndata.content.var);
             break;
         default:
             return ERROR;
@@ -46,26 +54,30 @@ int NodeGraphLink (node_t *top, FILE *file)
     return NO_ERROR;
 }
 
-int NodeGraphInit (node_t *top, FILE *file)
+int NodeGraphInit (node_t *top, FILE *file, modes mode)
 {
     assert (top);
     assert (file);
-    if (DryNode (top, file) == ERROR)
+    if (DryNode (top, file, mode) == ERROR)
         return ERROR;
 
     if (top->left)
-        NodeGraphInit (top->left, file);
+        NodeGraphInit (top->left, file, mode);
     if (top->right)
-        NodeGraphInit (top->right, file);
+        NodeGraphInit (top->right, file, mode);
 
     return NO_ERROR;
 }
 
-int GraphDump (node_t *tree)
+int GraphDump (node_t *tree, modes mode)
 {
     assert (tree);
-    FILE * file = FileOpen ("dump/dump_tree.dot", "w");
-    fseek (file, 0L, SEEK_SET);
+    FILE * file = NULL;
+
+    if (mode == DEBUG)
+        file = FileOpen ("dump/dump_debug_tree.dot", "w");
+    else
+        file = FileOpen ("dump/dump_tree.dot", "w");
 
     fprintf (file,
             "digraph DIFFTORR\n"
@@ -73,11 +85,16 @@ int GraphDump (node_t *tree)
             "\tgraph [dpi = 200, rankdir = \"TB\"];\n\n"
             "\tsubgraph TREE\n"
             "\t{\n"
-            "\t\tnode [shape = \"oval\", style = \"filled\", fillcolor = \"lightgoldenrod1\", fontcolor = \"black\", fontsize = \"12\"];\n"
             "\t\tedge [color = \"black\"];\n\n"
     );
 
-    NodeGraphInit (tree, file);
+    if (mode == DEBUG)
+        fprintf (file, "\t\tnode [shape = record,  style = \"filled\", fillcolor = \"darksalmon\",      fontcolor = \"black\", fontsize = \"12\"];\n");
+    else
+        fprintf (file, "\t\tnode [shape = \"oval\", style = \"filled\", fillcolor = \"lightgoldenrod1\", fontcolor = \"black\", fontsize = \"12\"];\n");
+
+
+    NodeGraphInit (tree, file, mode);
     fprintf (file, "\n");
     NodeGraphLink (tree, file);
 
@@ -88,5 +105,15 @@ int GraphDump (node_t *tree)
         );
 
     FileClose (file);
+
+    if (mode == DEBUG)
+        system ("dot dump/dump_debug_tree.dot -T png -o dump/dump_debug_tree.png");
+    else
+        system ("dot dump/dump_tree.dot -T png -o dump/dump_tree.png");
+
+
+    if (mode == OPEN)
+        system ("open dump/dump_tree.png");
+
     return NO_ERROR;
 }
