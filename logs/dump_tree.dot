@@ -1,0 +1,61 @@
+digraph DIFFTORR
+{
+	graph [dpi = 200, rankdir = "TB"];
+
+	subgraph TREE
+	{
+		edge [color = "black"];
+
+		node [shape = "oval", style = "filled", fillcolor = "lightgoldenrod1", fontcolor = "black", fontsize = "12"];
+		node_0x7fcb23d04370 [label = "*"];
+		node_0x7fcb23d044a0 [label = "/"];
+		node_0x7fcb23d044c0 [label = "1.000000", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d044e0 [label = "-"];
+		node_0x7fcb23d04500 [label = "*"];
+		node_0x7fcb23d04520 [label = "x", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d04550 [label = "x", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d04580 [label = "*"];
+		node_0x7fcb23d045a0 [label = "y", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d045d0 [label = "4.000000", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d04480 [label = "-"];
+		node_0x7fcb23d043f0 [label = "+"];
+		node_0x7fcb23d045f0 [label = "*"];
+		node_0x7fcb23d04390 [label = "1.000000", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d04660 [label = "x", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d04610 [label = "*"];
+		node_0x7fcb23d04630 [label = "x", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d043c0 [label = "1.000000", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d04460 [label = "+"];
+		node_0x7fcb23d04690 [label = "*"];
+		node_0x7fcb23d04410 [label = "1.000000", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d046f0 [label = "4.000000", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d046b0 [label = "*"];
+		node_0x7fcb23d046d0 [label = "y", fillcolor = "mediumpurple1" ];
+		node_0x7fcb23d04440 [label = "0.000000", fillcolor = "mediumpurple1" ];
+
+		node_0x7fcb23d04370 -> node_0x7fcb23d044a0;
+		node_0x7fcb23d044a0 -> node_0x7fcb23d044c0;
+		node_0x7fcb23d044a0 -> node_0x7fcb23d044e0;
+		node_0x7fcb23d044e0 -> node_0x7fcb23d04500;
+		node_0x7fcb23d04500 -> node_0x7fcb23d04520;
+		node_0x7fcb23d04500 -> node_0x7fcb23d04550;
+		node_0x7fcb23d044e0 -> node_0x7fcb23d04580;
+		node_0x7fcb23d04580 -> node_0x7fcb23d045a0;
+		node_0x7fcb23d04580 -> node_0x7fcb23d045d0;
+		node_0x7fcb23d04370 -> node_0x7fcb23d04480;
+		node_0x7fcb23d04480 -> node_0x7fcb23d043f0;
+		node_0x7fcb23d043f0 -> node_0x7fcb23d045f0;
+		node_0x7fcb23d045f0 -> node_0x7fcb23d04390;
+		node_0x7fcb23d045f0 -> node_0x7fcb23d04660;
+		node_0x7fcb23d043f0 -> node_0x7fcb23d04610;
+		node_0x7fcb23d04610 -> node_0x7fcb23d04630;
+		node_0x7fcb23d04610 -> node_0x7fcb23d043c0;
+		node_0x7fcb23d04480 -> node_0x7fcb23d04460;
+		node_0x7fcb23d04460 -> node_0x7fcb23d04690;
+		node_0x7fcb23d04690 -> node_0x7fcb23d04410;
+		node_0x7fcb23d04690 -> node_0x7fcb23d046f0;
+		node_0x7fcb23d04460 -> node_0x7fcb23d046b0;
+		node_0x7fcb23d046b0 -> node_0x7fcb23d046d0;
+		node_0x7fcb23d046b0 -> node_0x7fcb23d04440;
+	}
+}
